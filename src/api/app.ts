@@ -6,6 +6,7 @@ import cors from "cors";
 import helmet from "helmet";
 import router from "./routes/routes";
 import limiter from "@Shared/config/limiter";
+import errorHandler from "@Shared/errors/errorHandler";
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
@@ -18,6 +19,7 @@ app.use(limiter);
 
 app.use("/api/v1", router);
 
+app.use(errorHandler);
 app.all(/(.*)/, (req, res, next) => {
   res
     .status(404)
