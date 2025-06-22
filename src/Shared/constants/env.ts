@@ -10,4 +10,6 @@ export default {
   ES_URL: env.get("ES_URI").required().asString(),
   ES_USERNAME: env.get("ES_USERNAME").required().asString(),
   ES_PASSWORD: env.get("ES_PASSWORD").required().asString(),
+  ACCESS_TOKEN_SECRET: env.get("ACCESS_TOKEN_SECRET").required().asString(),
+  REFRESH_TOKEN_SECRET: env.get("REFRESH_TOKEN_SECRET").required().asString(),
 };

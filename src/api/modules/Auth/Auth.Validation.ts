@@ -10,3 +10,8 @@ export const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match.",
   });
+
+export const loginBodySchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});

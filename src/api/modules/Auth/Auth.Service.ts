@@ -1,9 +1,17 @@
 import { inject, injectable } from "tsyringe";
 import { IAuthRespository } from "./Repository/IAuthRepository";
 import { IRegisterBody, IUser } from "@Modules/User/Models/User.Models";
-import { hashPassword } from "@Shared/utils/Functions/passwordHash";
+import {
+  hashPassword,
+  verifyPassword,
+} from "@Shared/utils/Functions/passwordHash";
 import { IResponse } from "@Shared/types/types";
 import ApiResponse from "@Shared/utils/ApiResponse";
+import { ILoginBody } from "./Models/Auth.Models";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "@Shared/utils/Functions/JWT";
 
 @injectable()
 class AuthService {
@@ -17,11 +25,20 @@ class AuthService {
       data.username
     );
     if (emailExist || usernameExists)
-      ApiResponse.AlreadyExist("Email or username already exists.");
+      return ApiResponse.AlreadyExist("Email or username already exists.");
     data.password = await hashPassword(data.password);
     const user: IUser = await this.AuthRepository.create(data);
     user.password = undefined;
     return ApiResponse.Created({ user });
+  }
+
+  async login({ email, password }: ILoginBody): Promise<IResponse> {
+    const account = await this.AuthRepository.findByEmail(email);
+    if (!account || !(await verifyPassword(password, account.password ?? "")))
+      return ApiResponse.BadRequest("Invalid email or password.");
+    const accessToken = generateAccessToken(account.id);
+    const refreshToken = generateRefreshToken(account.id);
+    return ApiResponse.OK({ user: account }, accessToken, refreshToken);
   }
 }
 
