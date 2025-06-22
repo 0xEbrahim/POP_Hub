@@ -50,6 +50,9 @@ model User {
   notifications    Notification[] @relation("UserNotifications")
   reports          Report[]       @relation("UserReports")
   subscription     Subscription?
+
+  @@index([email])
+  @@index([username])
 }
 
 model Tribe {

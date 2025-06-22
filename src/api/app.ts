@@ -7,6 +7,8 @@ import helmet from "helmet";
 import router from "./routes/routes";
 import limiter from "@Shared/config/limiter";
 import errorHandler from "@Shared/errors/errorHandler";
+import "@Shared/container/index";
+
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));

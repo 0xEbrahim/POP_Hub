@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import env from "@Shared/constants/env";
 import app from "./app";
 import { mongoConnection } from "@Shared/config/mongoose";

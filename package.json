@@ -33,13 +33,16 @@
     "mongoose": "^8.16.0",
     "morgan": "^1.10.0",
     "multer": "^2.0.1",
+    "reflect-metadata": "^0.2.2",
     "sharp": "^0.34.2",
     "ts-node": "^10.9.2",
+    "tsyringe": "^4.10.0",
     "typescript": "^5.8.3",
     "zod": "^3.25.67",
     "zod-validation-error": "^3.5.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
