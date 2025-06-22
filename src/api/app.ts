@@ -18,4 +18,9 @@ app.use(limiter);
 
 app.use("/api/v1", router);
 
+app.all(/(.*)/, (req, res, next) => {
+  res
+    .status(404)
+    .json({ status: "ERROR", message: `${req.originalUrl} not found` });
+});
 export default app;
