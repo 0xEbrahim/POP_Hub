@@ -8,8 +8,7 @@ export default {
   MONGO_URI: env.get("MONGO_DB_URL").required().asString(),
   REDIS_URI: env.get("REDIS_URI").required().asString(),
   ES_URL: env.get("ES_URI").required().asString(),
-  ES_USERNAME: env.get("ES_USERNAME").required().asString(),
-  ES_PASSWORD: env.get("ES_PASSWORD").required().asString(),
+  ES_API_KEY: env.get("ES_API_KEY").required().asString(),
   ACCESS_TOKEN_SECRET: env.get("ACCESS_TOKEN_SECRET").required().asString(),
   REFRESH_TOKEN_SECRET: env.get("REFRESH_TOKEN_SECRET").required().asString(),
 };

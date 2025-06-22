@@ -8,6 +8,8 @@ import router from "./routes/routes";
 import limiter from "@Shared/config/limiter";
 import errorHandler from "@Shared/errors/errorHandler";
 import "@Shared/container/index";
+import { arenaConfig } from "@Shared/config/bullArena";
+// import { elasticWorker } from "jobs/workers/elasticWorker";
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(helmet());
 app.use(limiter);
 
 app.use("/api/v1", router);
+app.use("/", arenaConfig);
 
 app.use(errorHandler);
 app.all(/(.*)/, (req, res, next) => {

@@ -12,6 +12,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "@Shared/utils/Functions/JWT";
+import { elasticQueue } from "jobs/queues/elasticQueue";
 
 @injectable()
 class AuthService {
@@ -29,6 +30,23 @@ class AuthService {
     data.password = await hashPassword(data.password);
     const user: IUser = await this.AuthRepository.create(data);
     user.password = undefined;
+    elasticQueue.add(
+      "indexUser",
+      {
+        id: user.id,
+        bio: user.bio,
+        avatar: user.avatarUrl,
+        username: user.username,
+        createdAt: user.createdAt,
+      },
+      {
+        attempts: 5,
+        backoff: {
+          type: "exponential",
+          delay: 1000,
+        },
+      }
+    );
     return ApiResponse.Created({ user });
   }
 

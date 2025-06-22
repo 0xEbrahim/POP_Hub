@@ -4,8 +4,7 @@ import env from "@Shared/constants/env";
 const esClient = new Client({
   node: env.ES_URL,
   auth: {
-    username: env.ES_USERNAME,
-    password: env.ES_PASSWORD,
+    apiKey: env.ES_API_KEY,
   },
 });
 
