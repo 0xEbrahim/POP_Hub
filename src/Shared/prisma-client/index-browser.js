@@ -120,9 +120,122 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  email: 'email',
+  password: 'password',
+  bio: 'bio',
+  avatarUrl: 'avatarUrl',
+  role: 'role',
+  subscriptionStatus: 'subscriptionStatus',
+  stripeCustomerId: 'stripeCustomerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TribeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  privacy: 'privacy',
+  createdAt: 'createdAt',
+  creatorId: 'creatorId'
+};
+
+exports.Prisma.TribeMemberScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tribeId: 'tribeId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.ChannelScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  isPremium: 'isPremium',
+  createdAt: 'createdAt',
+  tribeId: 'tribeId'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  stripeId: 'stripeId',
+  status: 'status',
+  plan: 'plan',
+  currentPeriodEnd: 'currentPeriodEnd'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  content: 'content',
+  isRead: 'isRead',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.ReportScalarFieldEnum = {
+  id: 'id',
+  reason: 'reason',
+  status: 'status',
+  createdAt: 'createdAt',
+  reporterId: 'reporterId',
+  targetId: 'targetId',
+  targetType: 'targetType'
+};
+
+exports.Prisma.SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  MOD: 'MOD',
+  ADMIN: 'ADMIN'
+};
+
+exports.TribePrivacy = exports.$Enums.TribePrivacy = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+  PREMIUM: 'PREMIUM'
+};
+
+exports.ChannelType = exports.$Enums.ChannelType = {
+  TEXT: 'TEXT',
+  VOICE: 'VOICE',
+  VIDEO: 'VIDEO'
+};
+
+exports.ReportStatus = exports.$Enums.ReportStatus = {
+  OPEN: 'OPEN',
+  RESOLVED: 'RESOLVED',
+  REJECTED: 'REJECTED'
+};
 
 exports.Prisma.ModelName = {
-
+  User: 'User',
+  Tribe: 'Tribe',
+  TribeMember: 'TribeMember',
+  Channel: 'Channel',
+  Subscription: 'Subscription',
+  Notification: 'Notification',
+  Report: 'Report'
 };
 
 /**

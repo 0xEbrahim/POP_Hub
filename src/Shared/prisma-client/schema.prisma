@@ -7,3 +7,122 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  USER
+  MOD
+  ADMIN
+}
+
+enum ChannelType {
+  TEXT
+  VOICE
+  VIDEO
+}
+
+enum TribePrivacy {
+  PUBLIC
+  PRIVATE
+  PREMIUM
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+  REJECTED
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  username           String   @unique
+  email              String   @unique
+  password           String
+  bio                String?  @default("")
+  avatarUrl          String?  @default("")
+  role               Role     @default(USER)
+  subscriptionStatus String? // active, canceled, etc.
+  stripeCustomerId   String?  @unique
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  tribes           Tribe[]        @relation("UserCreatedTribes")
+  tribeMemberships TribeMember[]  @relation("UserTribeMemberships")
+  notifications    Notification[] @relation("UserNotifications")
+  reports          Report[]       @relation("UserReports")
+  subscription     Subscription?
+}
+
+model Tribe {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  slug        String       @unique
+  description String?
+  imageUrl    String?
+  privacy     TribePrivacy @default(PUBLIC)
+  createdAt   DateTime     @default(now())
+
+  creatorId String
+  creator   User   @relation("UserCreatedTribes", fields: [creatorId], references: [id])
+
+  members  TribeMember[] @relation("TribeHasMembers")
+  channels Channel[]
+}
+
+model TribeMember {
+  id       String   @id @default(cuid())
+  userId   String
+  tribeId  String
+  role     Role     @default(USER)
+  joinedAt DateTime @default(now())
+
+  user  User  @relation("UserTribeMemberships", fields: [userId], references: [id])
+  tribe Tribe @relation("TribeHasMembers", fields: [tribeId], references: [id])
+
+  @@unique([userId, tribeId])
+}
+
+model Channel {
+  id        String      @id @default(cuid())
+  name      String
+  type      ChannelType @default(TEXT)
+  isPremium Boolean     @default(false)
+  createdAt DateTime    @default(now())
+
+  tribeId String
+  tribe   Tribe  @relation(fields: [tribeId], references: [id])
+}
+
+model Subscription {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  stripeId         String   @unique
+  status           String
+  plan             String
+  currentPeriodEnd DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  content   String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation("UserNotifications", fields: [userId], references: [id])
+}
+
+model Report {
+  id        String       @id @default(cuid())
+  reason    String
+  status    ReportStatus @default(OPEN)
+  createdAt DateTime     @default(now())
+
+  reporterId String
+  reporter   User   @relation("UserReports", fields: [reporterId], references: [id])
+
+  targetId   String
+  targetType String
+}
